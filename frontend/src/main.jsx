@@ -113,71 +113,146 @@ function AuthPanel({ onToken }) {
   }
 
   return (
-    <main className="auth-screen">
-      <section className="home-shell">
-        <div className="home-copy">
-          <div className="home-brand"><Bot size={24} /> Meetia AI</div>
-          <p className="eyebrow">Document and media intelligence</p>
-          <h1>Ask better questions of every file you upload.</h1>
-          <p className="home-lede">
-            Bring PDFs, audio, and video into one workspace for searchable summaries,
-            cited answers, and timestamp-aware review.
+    <main className="auth-screen modern-landing">
+      <section className="landing-container">
+        {/* Hero Section */}
+        <div className="hero-section">
+          <div className="hero-content">
+            <div className="hero-badge">
+              <Sparkles size={16} />
+              <span>AI-Powered Intelligence</span>
+            </div>
+            <h1 className="hero-title">
+              Turn Your Documents Into
+              <span className="gradient-text"> Intelligent Insights</span>
+            </h1>
+            <p className="hero-subtitle">
+              Transform PDFs, audio, and video into searchable knowledge. Get AI-powered answers with citations, 
+              timestamp navigation, and instant summaries—all in one workspace.
+            </p>
+            <div className="hero-stats">
+              <div className="stat-card">
+                <div className="stat-number">350%</div>
+                <div className="stat-label">Faster Review</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">4.2x</div>
+                <div className="stat-label">More Insights</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Auth Form */}
+          <form className="modern-auth-card" onSubmit={submit}>
+            <div className="auth-card-header">
+              <Bot size={32} className="auth-logo" />
+              <h2>Get Started</h2>
+              <p>Create your account or sign in</p>
+            </div>
+            
+            <div className="auth-tabs">
+              <button 
+                type="button" 
+                className={mode === 'register' ? 'auth-tab active' : 'auth-tab'} 
+                onClick={() => setMode('register')}
+              >
+                Register
+              </button>
+              <button 
+                type="button" 
+                className={mode === 'login' ? 'auth-tab active' : 'auth-tab'} 
+                onClick={() => setMode('login')}
+              >
+                Login
+              </button>
+            </div>
+
+            <div className="auth-form-fields">
+              <div className="form-group">
+                <label>Email</label>
+                <input 
+                  type="email"
+                  value={email} 
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input 
+                  type="password" 
+                  value={password} 
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+            </div>
+
+            {error && <div className="auth-error">{error}</div>}
+            
+            <button className="auth-submit" type="submit">
+              <LogIn size={18} />
+              {mode === 'register' ? 'Create Account' : 'Sign In'}
+            </button>
+
+            <div className="auth-demo-hint">
+              <span>💡 Try demo: demo@example.com / password123</span>
+            </div>
+          </form>
+        </div>
+
+        {/* Features Section */}
+        <div className="features-section">
+          <div className="section-badge">
+            <span>✨ Features</span>
+          </div>
+          <h2 className="section-title">Intelligence That Delivers Results</h2>
+          <p className="section-subtitle">
+            Powerful AI tools to transform how you work with documents and media
           </p>
-          <div className="home-metrics" aria-label="Workspace highlights">
-            <span><strong>PDF</strong> extraction</span>
-            <span><strong>Audio</strong> review</span>
-            <span><strong>Video</strong> Q&A</span>
-          </div>
-        </div>
 
-        <div className="home-preview" aria-hidden="true">
-          <div className="preview-window">
-            <div className="preview-toolbar">
-              <span />
-              <span />
-              <span />
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon">
+                <FileText size={24} />
+              </div>
+              <h3>Smart Document Analysis</h3>
+              <p>Extract insights from PDFs instantly. Get summaries, search content, and ask questions with AI-powered understanding.</p>
             </div>
-            <div className="preview-body">
-              <div className="preview-files">
-                <div className="preview-upload"><UploadCloud size={18} /> Upload</div>
-                <div className="preview-file active"><Files size={16} /> Product brief.pdf</div>
-                <div className="preview-file"><FileAudio size={16} /> Interview.wav</div>
-                <div className="preview-file"><FileVideo size={16} /> Demo review.mp4</div>
+
+            <div className="feature-card">
+              <div className="feature-icon">
+                <FileAudio size={24} />
               </div>
-              <div className="preview-notes">
-                <div className="preview-search"><Search size={15} /> Search transcript</div>
-                <article>
-                  <time>00:01:24</time>
-                  <p>The launch plan needs a clearer onboarding moment and faster follow-up for unanswered questions.</p>
-                </article>
-                <article>
-                  <time>00:03:10</time>
-                  <p>Pricing feedback is strongest around team collaboration and export workflows.</p>
-                </article>
+              <h3>Audio & Video Intelligence</h3>
+              <p>Transcribe media files automatically. Search by keywords, jump to timestamps, and get contextual answers.</p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">
+                <Sparkles size={24} />
               </div>
-              <div className="preview-ai">
-                <div className="preview-ai-title"><Sparkles size={16} /> AI answer</div>
-                <p>The key decision is to simplify first upload, then guide users toward questions with citations.</p>
-                <div className="preview-followup"><MessageSquareText size={15} /> Ask follow-up</div>
-              </div>
+              <h3>AI-Powered Q&A</h3>
+              <p>Ask questions about your content and get accurate answers with citations. Navigate directly to source material.</p>
             </div>
           </div>
         </div>
 
-        <form className="auth-panel" onSubmit={submit}>
-          <div className="auth-heading">
-            <div className="mark"><ShieldCheck size={22} /></div>
-            <div>
-              <h2>{mode === 'register' ? 'Create your workspace' : 'Welcome back'}</h2>
-              <p>{mode === 'register' ? 'Start with the demo account or use your own email.' : 'Sign in to continue your file review.'}</p>
-            </div>
+        {/* Trusted By Section */}
+        <div className="trusted-section">
+          <p className="trusted-label">Trusted by teams worldwide</p>
+          <div className="trusted-logos">
+            <div className="logo-placeholder">🚀 Startups</div>
+            <div className="logo-placeholder">🏢 Enterprise</div>
+            <div className="logo-placeholder">🎓 Education</div>
+            <div className="logo-placeholder">💼 Business</div>
           </div>
-          <div className="segmented">
-            <button type="button" className={mode === 'register' ? 'active' : ''} onClick={() => setMode('register')}>Register</button>
-            <button type="button" className={mode === 'login' ? 'active' : ''} onClick={() => setMode('login')}>Login</button>
-          </div>
-          <label>Email<input value={email} onChange={(event) => setEmail(event.target.value)} /></label>
-          <label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
+        </div>
+      </section>
+    </main>
+  );
           {error && <div className="error">{error}</div>}
           <button className="primary" type="submit"><LogIn size={18} /> Continue</button>
         </form>
