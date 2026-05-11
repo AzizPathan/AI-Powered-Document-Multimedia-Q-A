@@ -1,0 +1,10 @@
+.venv
+.pytest_cache
+.pytest_tmp
+tests/.tmp
+__pycache__
+*.pyc
+*.log
+*.db
+.coverage
+uploads

@@ -1,0 +1,15 @@
+.env
+.env.local
+*.log
+*.err.log
+*.db
+.coverage
+.pytest_cache/
+.pytest-tmp/
+.pytest_tmp/
+backend/tests/.tmp/
+__pycache__/
+*.py[cod]
+node_modules/
+dist/
+uploads/
