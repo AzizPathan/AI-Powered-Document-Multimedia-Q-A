@@ -487,165 +487,157 @@ function App() {
   const displayDate = dateFromFile(activeFile, now);
 
   return (
-    <main className="workspace">
-      <aside className="sidebar">
-        <div className="brand-row">
-          <div className="brand"><Bot size={22} /> meetia.io</div>
-          <button className="ghost-icon" aria-label="Collapse sidebar"><PanelLeftClose size={18} /></button>
-        </div>
-
-        <div className="tabs">
-          <button className="active">Recent records</button>
-          <button>Archived</button>
-        </div>
-
-        <label className="upload">
-          <span className="record-dot" />
-          <span>{busy ? 'Processing...' : 'Start transcription'}</span>
-          <input type="file" accept="application/pdf,audio/*,video/*" onChange={upload} disabled={busy} />
-        </label>
-
-        <div className="records-heading">
-          <span>Records</span>
-          <CirclePlus size={17} />
-        </div>
-
-        <div className="file-list">
-          {visibleFiles.map((file, index) => (
-            <button
-              key={file.id}
-              className={activeFile?.id === file.id || (!activeFile && index === 0) ? 'file active' : 'file'}
-              onClick={() => files.length && setActiveFile(file)}
-            >
-              <span>{file.filename}</span>
+    <main className="workspace cabinet-dashboard">
+      <section className="cabinet-window">
+        <aside className="cabinet-notes">
+          <header className="cabinet-notes-top">
+            <button className="version-button" type="button">
+              3.1 version <ChevronDown size={15} />
             </button>
-          ))}
-        </div>
-
-        <div className="profile-area">
-          <div className="profile-chip">
-            <div className="avatar">OM</div>
-            <div>
-              <strong>Oksana Martunkova</strong>
-              <span>oksana@emphastudio...</span>
+            <div className="cabinet-tabs">
+              <button type="button"><Files size={15} /> Context</button>
+              <label>
+                <UploadCloud size={15} />
+                {busy ? 'Uploading' : 'Upload'}
+                <input type="file" accept="application/pdf,audio/*,video/*" onChange={upload} disabled={busy} />
+              </label>
+              <button className="active" type="button"><Pencil size={15} /> Notes</button>
             </div>
-            <ChevronDown size={16} />
-          </div>
-          <button className="signout-button" type="button" onClick={signOut}>
-            <LogOut size={17} /> Sign out
-          </button>
-        </div>
-      </aside>
+          </header>
 
-      <section className="content">
-        <header className="topbar">
-          <div className="title-edit">
-            <h1>{activeFile ? activeFile.filename : "Oksana's new transcription"}</h1>
-            <button className="ghost-icon" aria-label="Edit title"><Pencil size={18} /></button>
-          </div>
-          <div className="top-actions">
-            <span>Last edit {formatExactDateTime(displayDate)}</span>
-            <button className="feedback">Feedback</button>
-            <button className="ghost-icon" aria-label="More options"><MoreVertical size={19} /></button>
-          </div>
-        </header>
+          <div className="cabinet-auto"><Sparkles size={14} /> Updated automatically</div>
 
-        {error && <div className="error">{error}</div>}
-        {isMediaWithoutTranscript(activeFile) && (
-          <div className="notice">
-            Media uploaded and ready to play. Transcript, timestamps, summary, and Q&A need transcription to be configured.
-          </div>
-        )}
+          {error && <div className="error">{error}</div>}
+          {isMediaWithoutTranscript(activeFile) && (
+            <div className="notice">
+              Media uploaded and ready to play. Transcript, timestamps, summary, and Q&A need transcription to be configured.
+            </div>
+          )}
 
-        <section className="board">
-          <div className="left-stage">
-            <form onSubmit={findTimestamps} className="search-box">
-              <Search size={18} />
-              <input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="Search key words in transcript" />
-            </form>
-
-            {mediaUrl && (
-              <section className="media-band">
-                {activeFile.content_type.startsWith('video/') ? (
-                  <video ref={mediaRef} controls src={mediaUrl} />
-                ) : (
-                  <audio ref={mediaRef} controls src={mediaUrl} />
-                )}
-              </section>
-            )}
-
-            <section className="transcript-card">
-              <div className="date-line">{formatTranscriptDate(displayDate)}</div>
-              <div className="transcript-list">
-                {transcriptLines.map((line) => (
-                  <article key={line.time} className={line.selected ? 'transcript-line selected' : 'transcript-line'}>
-                    <time>{line.time}</time>
-                    <p>{line.text}</p>
-                  </article>
+          <section className="cabinet-understanding">
+            <h2>Current Understanding</h2>
+            <article>
+              <h3>1. Active Source</h3>
+              <p>{activeFile ? activeFile.filename : 'Upload a PDF, audio file, or video to begin.'}</p>
+            </article>
+            <article>
+              <h3>2. Summary</h3>
+              <p>{summaryFor(activeFile)}</p>
+            </article>
+            <article>
+              <h3>3. Records</h3>
+              <div className="cabinet-file-list">
+                {visibleFiles.map((file, index) => (
+                  <button
+                    key={file.id}
+                    className={activeFile?.id === file.id || (!activeFile && index === 0) ? 'active' : ''}
+                    onClick={() => files.length && setActiveFile(file)}
+                    type="button"
+                  >
+                    {iconFor(file.content_type)}
+                    <span>{file.filename}</span>
+                  </button>
                 ))}
               </div>
-              <div className="continue-row">
-                <span />
-                <button><SquarePlus size={17} /> Continue recording</button>
-                <span />
-              </div>
-              {timestamps.length > 0 && (
-                <div className="timestamp-list">
-                  {timestamps.map((match, index) => (
-                    <button key={index} onClick={() => playAt(match.start_seconds || 0)}>
-                      <Play size={15} />
-                      <span>{Math.round(match.start_seconds || 0)}s</span>
-                      <p>{match.text}</p>
-                    </button>
-                  ))}
-                </div>
+            </article>
+            <article>
+              <h3>4. Transcript Loop</h3>
+              <p>Search -&gt; Ask -&gt; Cite -&gt; Replay</p>
+              <form onSubmit={findTimestamps} className="cabinet-search">
+                <Search size={16} />
+                <input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="Search key words in transcript" />
+              </form>
+            </article>
+          </section>
+
+          {mediaUrl && (
+            <section className="cabinet-media">
+              {activeFile.content_type.startsWith('video/') ? (
+                <video ref={mediaRef} controls src={mediaUrl} />
+              ) : (
+                <audio ref={mediaRef} controls src={mediaUrl} />
               )}
             </section>
+          )}
+
+          <section className="cabinet-transcript">
+            <div className="date-line">{formatTranscriptDate(displayDate)}</div>
+            {transcriptLines.map((line) => (
+              <article key={line.time} className={line.selected ? 'selected' : ''}>
+                <time>{line.time}</time>
+                <p>{line.text}</p>
+              </article>
+            ))}
+            {timestamps.length > 0 && (
+              <div className="timestamp-list">
+                {timestamps.map((match, index) => (
+                  <button key={index} onClick={() => playAt(match.start_seconds || 0)} type="button">
+                    <Play size={15} />
+                    <span>{Math.round(match.start_seconds || 0)}s</span>
+                    <p>{match.text}</p>
+                  </button>
+                ))}
+              </div>
+            )}
+          </section>
+        </aside>
+
+        <section className="cabinet-chat">
+          <header className="cabinet-chat-top">
+            <div className="cabinet-agent">
+              <div className="agent-orb"><Bot size={18} /></div>
+              <div>
+                <h1>Q-Insight Cabinet</h1>
+                <p>{activeFile ? activeFile.filename : 'New App Help'}</p>
+              </div>
+            </div>
+            <div className="cabinet-actions">
+              <button className="ghost-icon" type="button" aria-label="Edit"><Pencil size={17} /></button>
+              <button className="ghost-icon" type="button" onClick={signOut} aria-label="Sign out"><LogOut size={17} /></button>
+            </div>
+          </header>
+
+          <div className="cabinet-chat-scroll" ref={assistantMessagesRef}>
+            {!messages.length && !busy && (
+              <>
+                <div className="cabinet-assistant-intro">Hi, how can I help you today?</div>
+                <article className="cabinet-thinking">
+                  <span><Sparkles size={14} /> Thinking about your workspace...</span>
+                  <p>Upload a source on the left, then ask me for summaries, topic highlights, or timestamped citations.</p>
+                </article>
+              </>
+            )}
+
+            {messages.map((message, index) => (
+              <article key={index} className={`cabinet-message ${message.role}`}>
+                <p>{message.text}</p>
+                {message.role === 'user' && <time>{formatTranscriptDate(now)}</time>}
+                {message.citations?.map((citation, citationIndex) => (
+                  <button key={citationIndex} className="citation" onClick={() => playAt(citation.start_seconds || 0)} type="button">
+                    {citation.start_seconds != null && <Play size={14} />} {citation.text}
+                  </button>
+                ))}
+              </article>
+            ))}
+            {busy && <div className="typing"><Loader2 size={16} className="spin" /> Thinking</div>}
           </div>
 
-          <aside className="assistant-pane">
-            <div className="assistant-title"><Sparkles size={18} /> Ask AI Assistant</div>
-            <div className="assistant-chat-area">
-              {!messages.length && !busy && (
-                <div className="assistant-empty">
-                  <div className="bot-mark"><Bot size={42} /></div>
-                  <h2>How can I assist you today?</h2>
-                  <p>Tap suggestions below or write your own questions about transcriptions.</p>
-                </div>
-              )}
+          <div className="cabinet-step">
+            <span>Step 1 of 4: Define the first answer</span>
+            <div><i /><i /><i /><i /></div>
+          </div>
 
-              <div className="messages" ref={assistantMessagesRef}>
-                {messages.map((message, index) => (
-                  <article key={index} className={`message ${message.role}`}>
-                    <p>{message.text}</p>
-                    {message.citations?.map((citation, citationIndex) => (
-                      <button key={citationIndex} className="citation" onClick={() => playAt(citation.start_seconds || 0)}>
-                        {citation.start_seconds != null && <Play size={14} />} {citation.text}
-                      </button>
-                    ))}
-                  </article>
-                ))}
-                {busy && <div className="typing"><Loader2 size={16} className="spin" /> Thinking</div>}
-              </div>
-            </div>
+          <div className="cabinet-suggestions">
+            <button type="button" onClick={() => setQuestion('Summarise this file')}>Summarise this file</button>
+            <button type="button" onClick={() => setQuestion('Find the most important statements')}>Important statements</button>
+            <button type="button" onClick={() => setQuestion('Show timestamped citations')}>Timestamped citations</button>
+          </div>
 
-            <div className="suggestions">
-              <div className="suggestion-head">
-                <strong>Suggestions for you</strong>
-                <button className="mini-icon" aria-label="Refresh suggestions"><Sparkles size={15} /></button>
-              </div>
-              <div className="suggestion-pills">
-                <button type="button" onClick={() => setQuestion('Summarise this meeting')}>Summarise this meeting</button>
-                <button type="button" onClick={() => setQuestion('Questions I may ask about this meeting')}>Questions I may ask about this meeting</button>
-                <button type="button" onClick={() => setQuestion('Highlight important statements')}>Highlight important statements</button>
-              </div>
-              <form className="ask-box" onSubmit={ask}>
-                <button className="add-button" type="button"><CirclePlus size={18} /></button>
-                <input value={question} onChange={(event) => setQuestion(event.target.value)} placeholder="Ask Meetia AI anything..." />
-                <button className="send-button" disabled={!activeFile || busy || isMediaWithoutTranscript(activeFile)}><Send size={18} /></button>
-              </form>
-            </div>
-          </aside>
+          <form className="cabinet-ask-box" onSubmit={ask}>
+            <button className="add-button" type="button"><CirclePlus size={18} /></button>
+            <input value={question} onChange={(event) => setQuestion(event.target.value)} placeholder="How can I help you?" />
+            <button className="send-button" disabled={!activeFile || busy || isMediaWithoutTranscript(activeFile)}><Send size={18} /></button>
+          </form>
         </section>
       </section>
     </main>
