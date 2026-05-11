@@ -78,37 +78,47 @@ npm install
 npm run dev
 ```
 
-## Deploy on Vercel
+## Deploy Frontend on Vercel and Backend on Railway
 
-This repo includes `vercel.json` and `api/index.py`, so Vercel can build the React frontend and serve the FastAPI backend from `/api`.
+This repo includes deployment config for Vercel frontend hosting and Railway backend hosting.
 
-1. Push this repository to GitHub.
-2. In Vercel, import the repository.
-3. Keep the project root as the root directory.
-4. Vercel will use:
+See [DEPLOYMENT.md](DEPLOYMENT.md) for the complete split-deployment guide.
+
+### Vercel Frontend
+
+If you deploy from the project root, Vercel will use:
 
 ```text
 Install Command: cd frontend && npm install
-Build Command: cd frontend && npm install && npm run build
+Build Command: cd frontend && npm run build
 Output Directory: frontend/dist
 ```
 
-Recommended Vercel environment variables:
+Set this Vercel environment variable to your Railway backend URL:
 
 ```text
-JWT_SECRET=replace-with-a-strong-secret
-OPENAI_API_KEY=your-openai-api-key
-BACKEND_CORS_ORIGINS=https://your-project.vercel.app
-VITE_API_BASE_URL=
+VITE_API_BASE_URL=https://your-railway-backend.up.railway.app
 ```
 
-For persistent production data, add a hosted PostgreSQL database and set:
+### Railway Backend
+
+Deploy the `backend` folder on Railway. Railway will use:
+
+- `backend/Dockerfile`
+- `backend/railway.json`
+
+Recommended Railway environment variables:
 
 ```text
 DATABASE_URL=postgresql+psycopg://USER:PASSWORD@HOST:PORT/DATABASE
+REDIS_URL=redis://USER:PASSWORD@HOST:PORT
+JWT_SECRET=replace-with-a-strong-secret
+OPENAI_API_KEY=your-openai-api-key
+BACKEND_CORS_ORIGINS=https://your-vercel-app.vercel.app
+UPLOAD_DIR=/app/uploads
 ```
 
-Without `DATABASE_URL`, Vercel uses temporary SQLite storage in `/tmp`, which can reset between serverless function instances. Uploaded files on Vercel also use temporary storage, so use an object storage service for durable media uploads in production.
+Railway provides `PORT` automatically, and the backend Dockerfile reads it.
 
 ## API Overview
 
