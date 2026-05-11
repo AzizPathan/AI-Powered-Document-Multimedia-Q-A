@@ -113,175 +113,141 @@ function AuthPanel({ onToken }) {
   }
 
   return (
-    <main className="auth-screen agency-landing">
-      <section className="agency-container">
-        {/* Navigation */}
-        <nav className="agency-nav">
-          <div className="agency-brand">
-            <Bot size={28} />
-            <span>AGency.io</span>
-          </div>
-          <button className="nav-cta">Book Strategy call</button>
-        </nav>
-
+    <main className="auth-screen modern-landing">
+      <section className="landing-container">
         {/* Hero Section */}
-        <div className="agency-hero">
-          <div className="hero-content-wrapper">
-            <div className="hero-text">
-              <h1 className="agency-h1">
-                Turn Your DevRel Program Into Revenue Growth
-              </h1>
-              <p className="agency-subheadline">
-                Turn wasted DevRel spend into measurable growth — we help B2B tech 
-                companies convert developer engagement into qualified pipeline and 3x 
-                ROI in just 90 days.
-              </p>
-              <div className="hero-cta-group">
-                <button className="cta-primary">Book Strategy call</button>
-                <button className="cta-secondary">Prices</button>
+        <div className="hero-section">
+          <div className="hero-content">
+            <div className="hero-badge">
+              <Sparkles size={16} />
+              <span>AI-Powered Intelligence</span>
+            </div>
+            <h1 className="hero-title">
+              Turn Your Documents Into
+              <span className="gradient-text"> Intelligent Insights</span>
+            </h1>
+            <p className="hero-subtitle">
+              Transform PDFs, audio, and video into searchable knowledge. Get AI-powered answers with citations, 
+              timestamp navigation, and instant summaries—all in one workspace.
+            </p>
+            <div className="hero-stats">
+              <div className="stat-card">
+                <div className="stat-number">350%</div>
+                <div className="stat-label">Faster Review</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">4.2x</div>
+                <div className="stat-label">More Insights</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Auth Form */}
+          <form className="modern-auth-card" onSubmit={submit}>
+            <div className="auth-card-header">
+              <Bot size={32} className="auth-logo" />
+              <h2>Get Started</h2>
+              <p>Create your account or sign in</p>
+            </div>
+            
+            <div className="auth-tabs">
+              <button 
+                type="button" 
+                className={mode === 'register' ? 'auth-tab active' : 'auth-tab'} 
+                onClick={() => setMode('register')}
+              >
+                Register
+              </button>
+              <button 
+                type="button" 
+                className={mode === 'login' ? 'auth-tab active' : 'auth-tab'} 
+                onClick={() => setMode('login')}
+              >
+                Login
+              </button>
+            </div>
+
+            <div className="auth-form-fields">
+              <div className="form-group">
+                <label>Email</label>
+                <input 
+                  type="email"
+                  value={email} 
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input 
+                  type="password" 
+                  value={password} 
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="••••••••"
+                  required
+                />
               </div>
             </div>
 
-            {/* Auth Card */}
-            <form className="agency-auth-card" onSubmit={submit}>
-              <div className="auth-header">
-                <Bot size={32} className="auth-icon" />
-                <h2 className="agency-h2">Get Started</h2>
-                <p className="auth-subtitle">Create your account or sign in</p>
-              </div>
-              
-              <div className="auth-toggle">
-                <button 
-                  type="button" 
-                  className={mode === 'register' ? 'toggle-btn active' : 'toggle-btn'} 
-                  onClick={() => setMode('register')}
-                >
-                  Register
-                </button>
-                <button 
-                  type="button" 
-                  className={mode === 'login' ? 'toggle-btn active' : 'toggle-btn'} 
-                  onClick={() => setMode('login')}
-                >
-                  Login
-                </button>
-              </div>
+            {error && <div className="auth-error">{error}</div>}
+            
+            <button className="auth-submit" type="submit">
+              <LogIn size={18} />
+              {mode === 'register' ? 'Create Account' : 'Sign In'}
+            </button>
 
-              <div className="auth-fields">
-                <div className="field-group">
-                  <label>Email</label>
-                  <input 
-                    type="email"
-                    value={email} 
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="you@example.com"
-                    required
-                  />
-                </div>
-                <div className="field-group">
-                  <label>Password</label>
-                  <input 
-                    type="password" 
-                    value={password} 
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="••••••••"
-                    required
-                  />
-                </div>
-              </div>
+            <div className="auth-demo-hint">
+              <span>💡 Try demo: demo@example.com / password123</span>
+            </div>
+          </form>
+        </div>
 
-              {error && <div className="auth-error-msg">{error}</div>}
-              
-              <button className="auth-submit-btn" type="submit">
-                <LogIn size={18} />
-                {mode === 'register' ? 'Create Account' : 'Sign In'}
-              </button>
-
-              <div className="demo-hint">
-                💡 Try demo: demo@example.com / password123
-              </div>
-            </form>
+        {/* Features Section */}
+        <div className="features-section">
+          <div className="section-badge">
+            <span>✨ Features</span>
           </div>
+          <h2 className="section-title">Intelligence That Delivers Results</h2>
+          <p className="section-subtitle">
+            Powerful AI tools to transform how you work with documents and media
+          </p>
 
-          {/* Social Proof */}
-          <div className="social-proof">
-            <p className="proof-label">Trusted by Developer-Focused Companies</p>
-            <div className="proof-logos">
-              <div className="proof-logo">Sourcegraph</div>
-              <div className="proof-logo">liblab</div>
-              <div className="proof-logo">twilio</div>
-              <div className="proof-logo">Hedera</div>
-              <div className="proof-logo">krunch</div>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon">
+                <FileText size={24} />
+              </div>
+              <h3>Smart Document Analysis</h3>
+              <p>Extract insights from PDFs instantly. Get summaries, search content, and ask questions with AI-powered understanding.</p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">
+                <FileAudio size={24} />
+              </div>
+              <h3>Audio & Video Intelligence</h3>
+              <p>Transcribe media files automatically. Search by keywords, jump to timestamps, and get contextual answers.</p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">
+                <Sparkles size={24} />
+              </div>
+              <h3>AI-Powered Q&A</h3>
+              <p>Ask questions about your content and get accurate answers with citations. Navigate directly to source material.</p>
             </div>
           </div>
         </div>
 
-        {/* Features Section */}
-        <div className="agency-features">
-          <div className="features-header">
-            <span className="features-badge">✨ Success model</span>
-            <h2 className="agency-h2">DevRel That Delivers Business Results</h2>
-            <p className="features-subtitle">
-              We help technology companies transform their DevRel efforts into 
-              measurable business outcomes that matter to the C-Suite
-            </p>
-          </div>
-
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-visual">
-                <div className="visual-item">
-                  <div className="visual-bar" style={{height: '60%'}}></div>
-                  <span>Outbound Email</span>
-                </div>
-                <div className="visual-item">
-                  <div className="visual-bar" style={{height: '75%'}}></div>
-                  <span>Nurture Leads</span>
-                </div>
-                <div className="visual-item">
-                  <div className="visual-bar" style={{height: '90%'}}></div>
-                  <span>Get Integrations</span>
-                </div>
-              </div>
-              <h3>Pipeline Acceleration</h3>
-              <p>
-                Convert developer engagement into qualified leads and sales 
-                opportunities with measurable impact on your bottom line.
-              </p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-visual">
-                <div className="growth-chart">
-                  <div className="chart-line"></div>
-                  <div className="chart-value">$1,355.49</div>
-                  <div className="chart-trend">↗ +12.5%</div>
-                </div>
-              </div>
-              <h3>Growth Metrics</h3>
-              <p>
-                Track and optimize key performance indicators that matter to your 
-                C-Suite: adoption rates, retention, and revenue impact.
-              </p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-visual">
-                <div className="network-graph">
-                  <div className="node node-1"></div>
-                  <div className="node node-2"></div>
-                  <div className="node node-3"></div>
-                  <div className="node node-4"></div>
-                  <div className="node node-5"></div>
-                  <div className="connection"></div>
-                </div>
-              </div>
-              <h3>Developer Adoption</h3>
-              <p>
-                Drive measurable increases in product usage, documentation traffic, 
-                and developer signups with targeted DevRel strategies.
-              </p>
-            </div>
+        {/* Trusted By Section */}
+        <div className="trusted-section">
+          <p className="trusted-label">Trusted by teams worldwide</p>
+          <div className="trusted-logos">
+            <div className="logo-placeholder">🚀 Startups</div>
+            <div className="logo-placeholder">🏢 Enterprise</div>
+            <div className="logo-placeholder">🎓 Education</div>
+            <div className="logo-placeholder">💼 Business</div>
           </div>
         </div>
       </section>
