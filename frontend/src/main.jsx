@@ -4,6 +4,9 @@ import {
   Bot,
   ChevronDown,
   CirclePlus,
+  CheckCircle,
+  Clock,
+  Database,
   FileAudio,
   Files,
   FileText,
@@ -16,12 +19,14 @@ import {
   PanelLeftClose,
   Pencil,
   Play,
+  PlayCircle,
   Search,
   Send,
   ShieldCheck,
   Sparkles,
   SquarePlus,
   UploadCloud,
+  Zap,
 } from 'lucide-react';
 import './styles.css';
 
@@ -113,144 +118,208 @@ function AuthPanel({ onToken }) {
   }
 
   return (
-    <main className="auth-screen modern-landing">
-      <section className="landing-container">
-        {/* Hero Section */}
-        <div className="hero-section">
-          <div className="hero-content">
-            <div className="hero-badge">
-              <Sparkles size={16} />
-              <span>AI-Powered Intelligence</span>
-            </div>
-            <h1 className="hero-title">
-              Turn Your Documents Into
-              <span className="gradient-text"> Intelligent Insights</span>
-            </h1>
-            <p className="hero-subtitle">
-              Transform PDFs, audio, and video into searchable knowledge. Get AI-powered answers with citations, 
-              timestamp navigation, and instant summaries—all in one workspace.
-            </p>
-            <div className="hero-stats">
-              <div className="stat-card">
-                <div className="stat-number">350%</div>
-                <div className="stat-label">Faster Review</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-number">4.2x</div>
-                <div className="stat-label">More Insights</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Auth Form */}
-          <form className="modern-auth-card" onSubmit={submit}>
-            <div className="auth-card-header">
-              <Bot size={32} className="auth-logo" />
-              <h2>Get Started</h2>
-              <p>Create your account or sign in</p>
-            </div>
-            
-            <div className="auth-tabs">
-              <button 
-                type="button" 
-                className={mode === 'register' ? 'auth-tab active' : 'auth-tab'} 
-                onClick={() => setMode('register')}
-              >
-                Register
-              </button>
-              <button 
-                type="button" 
-                className={mode === 'login' ? 'auth-tab active' : 'auth-tab'} 
-                onClick={() => setMode('login')}
-              >
-                Login
-              </button>
-            </div>
-
-            <div className="auth-form-fields">
-              <div className="form-group">
-                <label>Email</label>
-                <input 
-                  type="email"
-                  value={email} 
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="you@example.com"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <input 
-                  type="password" 
-                  value={password} 
-                  onChange={(event) => setPassword(event.target.value)}
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-            </div>
-
-            {error && <div className="auth-error">{error}</div>}
-            
-            <button className="auth-submit" type="submit">
-              <LogIn size={18} />
-              {mode === 'register' ? 'Create Account' : 'Sign In'}
-            </button>
-
-            <div className="auth-demo-hint">
-              <span>💡 Try demo: demo@example.com / password123</span>
-            </div>
-          </form>
+    <main className="qinsight-landing">
+      <nav className="q-nav">
+        <a className="q-brand" href="#top" aria-label="Q-Insight home">
+          <span><Zap size={20} /></span>
+          Q-Insight
+        </a>
+        <div className="q-nav-links">
+          <a href="#features">Features</a>
+          <a href="#tech">Tech Stack</a>
+          <a href="#docs">Docs</a>
         </div>
+        <div className="q-nav-actions">
+          <button type="button" className="q-link-button" onClick={() => setMode('login')}>Login -&gt;</button>
+          <a className="q-primary-pill" href="#access" onClick={() => setMode('register')}>Get Started</a>
+        </div>
+      </nav>
 
-        {/* Features Section */}
-        <div className="features-section">
-          <div className="section-badge">
-            <span>✨ Features</span>
+      <section id="top" className="q-hero">
+        <div className="q-hero-copy">
+          <h1>
+            AI answers for <br />
+            <span>all your documents.</span>
+          </h1>
+          <div className="q-search-mockup">
+            <div>What are the main topics in the Q3 transcript?</div>
+            <a href="#access">Ask AI</a>
           </div>
-          <h2 className="section-title">Intelligence That Delivers Results</h2>
-          <p className="section-subtitle">
-            Powerful AI tools to transform how you work with documents and media
+          <p className="q-support-line">
+            <span>*</span> PDF, audio, and video support <span>*</span>
           </p>
-
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">
-                <FileText size={24} />
-              </div>
-              <h3>Smart Document Analysis</h3>
-              <p>Extract insights from PDFs instantly. Get summaries, search content, and ask questions with AI-powered understanding.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">
-                <FileAudio size={24} />
-              </div>
-              <h3>Audio & Video Intelligence</h3>
-              <p>Transcribe media files automatically. Search by keywords, jump to timestamps, and get contextual answers.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">
-                <Sparkles size={24} />
-              </div>
-              <h3>AI-Powered Q&A</h3>
-              <p>Ask questions about your content and get accurate answers with citations. Navigate directly to source material.</p>
-            </div>
-          </div>
         </div>
 
-        {/* Trusted By Section */}
-        <div className="trusted-section">
-          <p className="trusted-label">Trusted by teams worldwide</p>
-          <div className="trusted-logos">
-            <div className="logo-placeholder">🚀 Startups</div>
-            <div className="logo-placeholder">🏢 Enterprise</div>
-            <div className="logo-placeholder">🎓 Education</div>
-            <div className="logo-placeholder">💼 Business</div>
+        <div className="q-floating-stage" aria-label="Q-Insight product preview">
+          <article className="q-float-card q-pdf-card">
+            <div className="q-card-head">
+              <span className="q-icon-soft red"><FileText size={20} /></span>
+              <div>
+                <strong>Annual Report.pdf</strong>
+                <small>Extracted with PyPDF</small>
+              </div>
+            </div>
+            <div className="q-lines">
+              <span />
+              <span />
+              <span />
+            </div>
+          </article>
+
+          <section className="q-browser-card">
+            <div className="q-browser-top">
+              <div><span /><span /><span /></div>
+              <code>localhost:5173</code>
+            </div>
+            <div className="q-browser-body">
+              <div className="q-assistant-label"><MessageSquareText size={19} /> AI Assistant</div>
+              <div className="q-chat-bubble ai">I've analyzed your video and PDF. What would you like to know about the strategy?</div>
+              <div className="q-chat-bubble user">Summarize the pricing discussion in the meeting.</div>
+              <div className="q-chat-bubble citation">
+                <p>The pricing strategy centers around three tiers. It was discussed in the video at <strong>04:22</strong>.</p>
+                <button type="button"><PlayCircle size={16} /> Jump to citation</button>
+              </div>
+            </div>
+          </section>
+
+          <article className="q-float-card q-video-card">
+            <div className="q-video-thumb">
+              <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&q=80" alt="" />
+              <Play size={30} />
+            </div>
+            <strong>Meeting_Recording.mp4</strong>
+            <small>Transcribed via Whisper</small>
+          </article>
+        </div>
+      </section>
+
+      <section id="access" className="q-access-section">
+        <form className="q-auth-card" onSubmit={submit}>
+          <div className="q-auth-copy">
+            <span><ShieldCheck size={18} /> Secure workspace access</span>
+            <h2>{mode === 'register' ? 'Create your Q-Insight account' : 'Welcome back to Q-Insight'}</h2>
+            <p>Use the demo credentials or bring your own account into the document Q&A workspace.</p>
+          </div>
+          <div className="q-auth-tabs" role="tablist" aria-label="Authentication mode">
+            <button type="button" className={mode === 'register' ? 'active' : ''} onClick={() => setMode('register')}>Register</button>
+            <button type="button" className={mode === 'login' ? 'active' : ''} onClick={() => setMode('login')}>Login</button>
+          </div>
+          <label>
+            Email
+            <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required />
+          </label>
+          <label>
+            Password
+            <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="password123" required />
+          </label>
+          {error && <div className="q-auth-error">{error}</div>}
+          <button className="q-auth-submit" type="submit">
+            <LogIn size={18} />
+            {mode === 'register' ? 'Create Account' : 'Sign In'}
+          </button>
+          <p className="q-demo-hint">Demo: demo@example.com / password123</p>
+        </form>
+      </section>
+
+      <section id="features" className="q-features">
+        <div className="q-section-heading">
+          <h2>Simplify access to information</h2>
+          <p>Upload PDFs, audio, or video. Q-Insight handles extraction and indexing so you can find answers instantly through one search bar.</p>
+        </div>
+        <div className="q-feature-layout">
+          <aside className="q-feature-nav">
+            <span className="active">Document Insights</span>
+            <span>Media Transcription</span>
+            <span>Vector Search (FAISS)</span>
+            <span>JWT Authentication</span>
+            <span>Streaming Responses</span>
+          </aside>
+          <div className="q-feature-grid">
+            <article>
+              <span><FileText size={21} /></span>
+              <h3>Text & Media Extraction</h3>
+              <p>Robust extraction with pypdf for documents and OpenAI Whisper for high-accuracy audio and video transcription.</p>
+            </article>
+            <article>
+              <span><Search size={21} /></span>
+              <h3>Hybrid Search Engine</h3>
+              <p>A retrieval system combining FAISS-backed vector search with TF-IDF fallbacks for deterministic reliability.</p>
+            </article>
+            <article>
+              <span><Clock size={21} /></span>
+              <h3>Interactive Timestamps</h3>
+              <p>Citations link directly to video and audio timestamps with built-in playback control.</p>
+            </article>
+            <article>
+              <span><Database size={21} /></span>
+              <h3>PostgreSQL & Redis</h3>
+              <p>Production persistence for chat history, file metadata, and efficient rate limiting.</p>
+            </article>
           </div>
         </div>
       </section>
+
+      <section id="tech" className="q-tech">
+        <div className="q-tech-panel">
+          <div>
+            <span className="q-kicker">Deployment Ready</span>
+            <h2>Built for performance and scale.</h2>
+            <ul>
+              <li><CheckCircle size={17} /> Docker & Docker Compose Support</li>
+              <li><CheckCircle size={17} /> Backend coverage with Pytest</li>
+              <li><CheckCircle size={17} /> GitHub Actions CI/CD Workflows</li>
+              <li><CheckCircle size={17} /> React + Vite Frontend / FastAPI Backend</li>
+            </ul>
+          </div>
+          <div className="q-terminal">
+            <div><span /><span /><span /></div>
+            <code>$ docker compose up --build</code>
+            <p>Building services...</p>
+            <strong>backend (FastAPI) listening on :8000</strong>
+            <strong>frontend (Vite) listening on :5173</strong>
+            <strong>postgres:5432 is healthy</strong>
+            <em># Ready to extract and query your knowledge base</em>
+          </div>
+        </div>
+      </section>
+
+      <section id="docs" className="q-docs">
+        <h2>Implementation Details</h2>
+        <article>
+          <span>1</span>
+          <div>
+            <h3>JWT Authentication</h3>
+            <p>Secure user registration and login flows. Protected upload, chat, and timestamp endpoints require bearer tokens.</p>
+          </div>
+        </article>
+        <article>
+          <span>2</span>
+          <div>
+            <h3>Streaming Chat via SSE</h3>
+            <p>Real-time AI responses generate progressively for a faster document analysis experience.</p>
+          </div>
+        </article>
+        <article>
+          <span>3</span>
+          <div>
+            <h3>Topic Analysis & Summaries</h3>
+            <p>Automatic file summaries and topic-specific segments help navigate long documents and recordings.</p>
+          </div>
+        </article>
+      </section>
+
+      <footer className="q-footer">
+        <div className="q-brand">
+          <span><Zap size={17} /></span>
+          Q-Insight
+        </div>
+        <p>2026 AI-Powered Document Q&A. Built for the modern enterprise.</p>
+        <div>
+          <a href="#features">Privacy</a>
+          <a href="#docs">Terms</a>
+          <a href="#tech">GitHub</a>
+        </div>
+      </footer>
     </main>
   );
 }
