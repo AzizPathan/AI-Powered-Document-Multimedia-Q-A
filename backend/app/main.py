@@ -22,6 +22,21 @@ def create_app() -> FastAPI:
     def startup() -> None:
         init_db()
 
+    @app.get("/")
+    def root() -> dict[str, str]:
+        return {
+            "message": "AI Document & Multimedia Q&A API",
+            "version": "1.0.0",
+            "status": "running",
+            "endpoints": {
+                "health": "/health",
+                "docs": "/docs",
+                "auth": "/api/auth",
+                "files": "/api/files",
+                "chat": "/api/chat"
+            }
+        }
+
     @app.get("/health")
     def health() -> dict[str, str]:
         return {"status": "ok"}
