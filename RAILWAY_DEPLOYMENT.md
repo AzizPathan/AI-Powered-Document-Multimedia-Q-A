@@ -67,21 +67,96 @@ Set these environment variables in your Railway backend service:
    - Railway provides a public URL like: `https://your-backend.railway.app`
    - Use this URL for your frontend's `VITE_API_BASE_URL`
 
-## Frontend Deployment (Optional)
+## Frontend Deployment
 
-If deploying frontend to Railway:
+### Option 1: Deploy Frontend to Railway (Recommended)
 
-1. **Create Frontend Service**
-   - Connect to same GitHub repository
-   - Set root directory to: `frontend`
+1. **Create a New Service in Railway**
+   - In your Railway project, click "New Service"
+   - Select "GitHub Repo"
+   - Choose your repository: `AzizPathan/AI-Powered-Document-Multimedia-Q-A`
+   - Railway will create a new service
 
-2. **Set Environment Variable**
-   - `VITE_API_BASE_URL=https://your-backend.railway.app`
+2. **Configure the Frontend Service**
+   - Service name: `frontend` (or any name you prefer)
+   - Root directory: Leave as `/` (root)
+   - Railway will auto-detect the Dockerfile
 
-3. **Deploy**
-   - Railway will build and serve the frontend
+3. **Set Build Arguments**
+   - Go to service Settings → Build
+   - Add build argument:
+     - Key: `VITE_API_BASE_URL`
+     - Value: `https://your-backend.railway.app` (use your actual backend URL)
 
-## Troubleshooting:
+4. **Deploy**
+   - Railway will automatically build using `frontend/Dockerfile`
+   - The build process:
+     - Installs dependencies
+     - Builds the React app with Vite
+     - Serves it with Nginx
+   - Get your frontend URL: `https://your-frontend.railway.app`
+
+5. **Update Backend CORS**
+   - Go back to your backend service
+   - Update `BACKEND_CORS_ORIGINS` environment variable
+   - Add your frontend URL: `https://your-frontend.railway.app`
+   - Example: `https://your-frontend.railway.app,http://localhost:5173`
+
+### Option 2: Deploy Frontend to Vercel
+
+If you prefer Vercel for the frontend:
+
+1. **Connect Repository to Vercel**
+   - Go to vercel.com
+   - Import your GitHub repository
+   - Root directory: `frontend`
+
+2. **Configure Build Settings**
+   - Framework Preset: Vite
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+
+3. **Set Environment Variable**
+   - Add: `VITE_API_BASE_URL=https://your-backend.railway.app`
+
+4. **Deploy**
+   - Vercel will build and deploy
+   - Get your URL: `https://your-project.vercel.app`
+
+5. **Update Backend CORS**
+   - Add Vercel URL to `BACKEND_CORS_ORIGINS` in Railway backend
+
+### Testing the Full Stack:
+
+Once both are deployed:
+
+```bash
+# Test backend
+curl https://your-backend.railway.app/health
+# Should return: {"status":"ok"}
+
+# Test frontend
+# Open https://your-frontend.railway.app in browser
+# You should see the login page
+```
+
+### Important Notes:
+
+- **CORS Configuration**: Make sure your frontend URL is in `BACKEND_CORS_ORIGINS`
+- **API URL**: The frontend needs `VITE_API_BASE_URL` set to your backend URL
+- **Build Time**: The frontend build argument must be set BEFORE building (not as runtime env var)
+
+## Current Status:
+
+✅ PostgreSQL database is running
+✅ Dockerfile is configured correctly  
+✅ railway.toml is configured for both services
+✅ Frontend Dockerfile updated for Railway deployment
+⏳ Set environment variables in Railway backend service
+⏳ Deploy backend service
+⏳ Create frontend service in Railway
+⏳ Set VITE_API_BASE_URL build argument in frontend
+⏳ Update BACKEND_CORS_ORIGINS with frontend URL
 
 - **Port Issues**: Fixed! The Dockerfile now properly uses Railway's PORT variable
 - **Database Connection**: Make sure DATABASE_URL is set (automatic when database is linked)
