@@ -23,7 +23,7 @@ def create_app() -> FastAPI:
         init_db()
 
     @app.get("/")
-    def root() -> dict[str, str]:
+    def root() -> dict:
         return {
             "message": "AI Document & Multimedia Q&A API",
             "version": "1.0.0",
