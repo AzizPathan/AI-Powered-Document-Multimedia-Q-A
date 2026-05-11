@@ -253,12 +253,6 @@ function AuthPanel({ onToken }) {
       </section>
     </main>
   );
-          {error && <div className="error">{error}</div>}
-          <button className="primary" type="submit"><LogIn size={18} /> Continue</button>
-        </form>
-      </section>
-    </main>
-  );
 }
 
 function App() {
