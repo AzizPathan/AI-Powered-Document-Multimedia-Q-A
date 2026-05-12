@@ -2,20 +2,27 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Bot,
+  ArrowUp,
+  Calendar,
   ChevronDown,
-  CirclePlus,
   CheckCircle,
   Clock,
+  Copy,
   Database,
+  Eye,
   FileAudio,
   Files,
   FileText,
   FileVideo,
+  Globe,
+  Layout,
   Loader2,
   LogIn,
   LogOut,
   MessageSquareText,
+  MoreHorizontal,
   MoreVertical,
+  Paperclip,
   PanelLeftClose,
   Pencil,
   Play,
@@ -24,8 +31,11 @@ import {
   Send,
   ShieldCheck,
   Sparkles,
+  ThumbsUp,
   SquarePlus,
+  Upload,
   UploadCloud,
+  Volume2,
   Zap,
 } from 'lucide-react';
 import './styles.css';
@@ -495,17 +505,17 @@ function App() {
               3.1 version <ChevronDown size={15} />
             </button>
             <div className="cabinet-tabs">
-              <button type="button"><Files size={15} /> Context</button>
+              <button type="button"><Layout size={15} /> Context</button>
               <label>
-                <UploadCloud size={15} />
+                <Calendar size={15} />
                 {busy ? 'Uploading' : 'Upload'}
                 <input type="file" accept="application/pdf,audio/*,video/*" onChange={upload} disabled={busy} />
               </label>
-              <button className="active" type="button"><Pencil size={15} /> Notes</button>
+              <button className="active" type="button"><FileText size={15} /> Notes</button>
             </div>
           </header>
 
-          <div className="cabinet-auto"><Sparkles size={14} /> Updated automatically</div>
+          <div className="cabinet-auto"><Globe size={14} /> Updated automatically</div>
 
           {error && <div className="error">{error}</div>}
           {isMediaWithoutTranscript(activeFile) && (
@@ -542,7 +552,7 @@ function App() {
             </article>
             <article>
               <h3>4. Transcript Loop</h3>
-              <p>Search -&gt; Ask -&gt; Cite -&gt; Replay</p>
+              <p className="cabinet-loop">Search <span>-&gt;</span> Ask <span>-&gt;</span> Cite <span>-&gt;</span> Replay</p>
               <form onSubmit={findTimestamps} className="cabinet-search">
                 <Search size={16} />
                 <input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="Search key words in transcript" />
@@ -585,14 +595,15 @@ function App() {
         <section className="cabinet-chat">
           <header className="cabinet-chat-top">
             <div className="cabinet-agent">
-              <div className="agent-orb"><Bot size={18} /></div>
+              <div className="agent-orb" aria-hidden="true"><span /></div>
               <div>
-                <h1>Q-Insight Cabinet</h1>
+                <h1>Anastasia's Cabinet <LogIn size={13} /></h1>
                 <p>{activeFile ? activeFile.filename : 'New App Help'}</p>
               </div>
             </div>
             <div className="cabinet-actions">
               <button className="ghost-icon" type="button" aria-label="Edit"><Pencil size={17} /></button>
+              <button className="ghost-icon" type="button" aria-label="Volume"><Volume2 size={17} /></button>
               <button className="ghost-icon" type="button" onClick={signOut} aria-label="Sign out"><LogOut size={17} /></button>
             </div>
           </header>
@@ -601,8 +612,14 @@ function App() {
             {!messages.length && !busy && (
               <>
                 <div className="cabinet-assistant-intro">Hi, how can I help you today?</div>
+                <div className="cabinet-message-tools" aria-hidden="true">
+                  <Upload size={15} />
+                  <Copy size={15} />
+                  <ThumbsUp size={15} />
+                  <MoreHorizontal size={15} />
+                </div>
                 <article className="cabinet-thinking">
-                  <span><Sparkles size={14} /> Thinking about your workspace...</span>
+                  <span><Eye size={14} /> Thinking about your workspace...</span>
                   <p>Upload a source on the left, then ask me for summaries, topic highlights, or timestamped citations.</p>
                 </article>
               </>
@@ -612,6 +629,14 @@ function App() {
               <article key={index} className={`cabinet-message ${message.role}`}>
                 <p>{message.text}</p>
                 {message.role === 'user' && <time>{formatTranscriptDate(now)}</time>}
+                {message.role === 'assistant' && (
+                  <div className="cabinet-message-tools" aria-hidden="true">
+                    <Upload size={15} />
+                    <Copy size={15} />
+                    <ThumbsUp size={15} />
+                    <MoreHorizontal size={15} />
+                  </div>
+                )}
                 {message.citations?.map((citation, citationIndex) => (
                   <button key={citationIndex} className="citation" onClick={() => playAt(citation.start_seconds || 0)} type="button">
                     {citation.start_seconds != null && <Play size={14} />} {citation.text}
@@ -634,9 +659,9 @@ function App() {
           </div>
 
           <form className="cabinet-ask-box" onSubmit={ask}>
-            <button className="add-button" type="button"><CirclePlus size={18} /></button>
+            <button className="add-button" type="button" aria-label="Attach"><Paperclip size={18} /></button>
             <input value={question} onChange={(event) => setQuestion(event.target.value)} placeholder="How can I help you?" />
-            <button className="send-button" disabled={!activeFile || busy || isMediaWithoutTranscript(activeFile)}><Send size={18} /></button>
+            <button className="send-button" disabled={!activeFile || busy || isMediaWithoutTranscript(activeFile)} aria-label="Send"><ArrowUp size={18} /></button>
           </form>
         </section>
       </section>
