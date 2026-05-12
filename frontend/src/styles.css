@@ -1517,21 +1517,35 @@ input::placeholder {
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 }
 
-.q-primary-pill {
+.qinsight-landing .q-primary-pill {
   min-height: 42px;
   border-radius: 999px;
   padding: 0 21px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: #111111;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 750;
+  text-decoration: none;
 }
 
-.q-primary-pill:hover,
+.qinsight-landing .q-primary-pill:visited {
+  color: #ffffff;
+}
+
+.qinsight-landing .q-primary-pill:hover,
+.qinsight-landing .q-primary-pill:focus-visible,
 .q-search-mockup a:hover,
 .q-auth-submit:hover {
   background: #2d2d2d;
+  color: #ffffff;
+}
+
+.qinsight-landing .q-primary-pill:focus-visible {
+  outline: 3px solid rgba(17, 17, 17, 0.18);
+  outline-offset: 3px;
 }
 
 .q-hero {
